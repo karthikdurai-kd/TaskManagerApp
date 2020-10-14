@@ -5,11 +5,11 @@ const jwt = require("jsonwebtoken");
 const Task = require("./task");
 
 const userSchema = new mongoose.Schema({
-    name:{
+    /*name:{
         type: String,
         required: true,
         trim: true
-    },
+    },*/
     email:{
         type: String,
         required: true,
@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
              }
          }
     },
-    age:{
+    /*age:{
         type: Number,
         default: 0,
         validate(val){
@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
                throw new Error("Age must me a positive number");
            }
         }
-    },
+    },*/
     tokens: [{
         token:{
             type: String,

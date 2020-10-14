@@ -45,18 +45,19 @@ router.post("/user/login", async (req, res)=>{
 })
 
 //Logging Out User from the device they are using currently
-router.post("/user/logout", auth ,async (req, res)=>{
+router.post("/user/logout", auth, async (req, res)=>{
      try{
        req.user.tokens = req.user.tokens.filter((token)=>{
             return token.token !== req.token;
        })
        await req.user.save();
-       res.send();
+       res.send(JSON.stringify("Logout Success"));
      }
      catch(e){
        res.status(500).send();
      }
 })
+
 
 //Logging Out User from all devices they logged in
 router.post("/user/logoutAll", auth, async (req, res)=>{
