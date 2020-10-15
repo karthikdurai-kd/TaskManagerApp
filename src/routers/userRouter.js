@@ -3,11 +3,16 @@ const router = new express.Router();
 const auth = require("../middleware/auth");
 const User = require("../models/user");
 const Task = require("../models/task");
+var CryptoJS = require("crypto-js");
 
 //Adding User data to database
 router.post('/users', async (req, res)=>{
-    console.log(req.body);
-    const user = new User(req.body);
+    var decryptPassword  = CryptoJS.AES.decrypt(req.body.password, 'sample key for hashing').toString(CryptoJS.enc.Utf8);
+    const user = new User({
+      email: req.body.email,
+      password: decryptPassword,
+      
+    });
     //Performing without async and await
     // user.save().then(()=>{
     //      res.status(201).send(user);
@@ -32,7 +37,8 @@ router.post('/users', async (req, res)=>{
 //Logging in User
 router.post("/user/login", async (req, res)=>{
     try{
-      const user = await User.findByCredentials(req.body.email, req.body.password);
+      var decryptPassword  = CryptoJS.AES.decrypt(req.body.password, 'sample key for hashing').toString(CryptoJS.enc.Utf8);
+      const user = await User.findByCredentials(req.body.email, decryptPassword);
       const token = await user.generateAuthToken();
       res.send({
         user: user,
